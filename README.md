@@ -23,7 +23,7 @@ This is a revised  Cadquery workbench on FreeCAD that allows the Code Editor to 
 
   Restart Freecad  then run test:
   
-  +compose code in code editor
+  +write code in code editor
   
   +click Execute Script to show model 
   
