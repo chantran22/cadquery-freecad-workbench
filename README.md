@@ -25,7 +25,7 @@ This is a revised  Cadquery workbench on FreeCAD that allows the Code Editor to 
   
   +compose code in code editor
   
-  +click execute to show model 
+  +click Execute Script to show model 
   
 - [Usage](docs/usage.md)
 - [Developers](docs/developers.md)
