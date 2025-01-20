@@ -21,7 +21,7 @@ This is a revised  Cadquery workbench on FreeCAD that allows the Code Editor to 
   following sequence instruction from Jeremy Wright in main hub (cadquery-freecad-workbench)
   then replace cadquery WB content in folder path:  C:\Users\AppData\Roaming\FreeCAD\Mod\
 
-  Restart Freecad to reload then run test:
+  Restart Freecad  then run test:
   
   +compose code in code editor
   
