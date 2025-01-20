@@ -22,6 +22,7 @@ This is a revised FreeCAD workbench that allows the Code Editor to execute and d
   Restart Freecad to reload then run test:
   
   +compose code in code editor
+  
   +click excute to show model 
   
 - [Usage](docs/usage.md)
