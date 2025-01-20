@@ -34,3 +34,6 @@ This is a revised FreeCAD workbench that allows the Code Editor to execute and d
 
 ![image](https://github.com/user-attachments/assets/839e098a-d243-4ddd-9a7a-a5d2a2b0074f)
 
+![image](https://github.com/user-attachments/assets/256e63b6-958f-4b4c-8072-14f608b7fc91)
+
+
