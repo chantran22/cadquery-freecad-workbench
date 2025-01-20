@@ -1,0 +1,51 @@
+
+class CadQueryExecuteScript:
+    """CadQuery's command to execute a script file"""
+
+    def GetResources(self):
+        return {
+            "MenuText": "Execute Script",
+            "Accel": FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/cadquery-freecad-module").GetString("executeKeybinding"),
+            "ToolTip": "Executes the CadQuery script",
+            "Pixmap": ":/icons/media-playback-start.svg"
+        }
+
+    def IsActive(self):
+        return True
+
+    def Activated(self):
+        # Grab the code editor to interact with it
+        cqCodePane = Shared.getActiveCodePane()
+
+        # Clear the old render before re-rendering
+        Shared.clearActiveDocument()
+
+        scriptText = cqCodePane.toPlainText().encode('utf-8')
+
+        # Set environment variables to help the user
+        os.environ["MYSCRIPT_FULL_PATH"] = cqCodePane.get_path()
+        os.environ["MYSCRIPT_DIR"] = os.path.dirname(os.path.abspath(cqCodePane.get_path()))
+
+        # Save the code to a temporary file
+        tempFile = tempfile.NamedTemporaryFile(delete=False, suffix=".py")
+        tempFile.write(scriptText)
+        tempFile.close()
+
+        try:
+            # Execute the script
+            exec_globals = {"show_object": show_object}
+            with open(tempFile.name, "r") as f:
+                exec(f.read(), exec_globals)
+
+            msg = QtGui.QApplication.translate(
+                "cqCodeWidget",
+                "Executed ",
+                None
+            )
+            FreeCAD.Console.PrintMessage(msg + cqCodePane.get_path() + "\r\n")
+
+        except Exception as e:
+            FreeCAD.Console.PrintError("Error executing script: " + str(e) + "\r\n")
+        finally:
+            # Clean up the temporary file
+            os.remove(tempFile.name)
