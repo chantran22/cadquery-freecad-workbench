@@ -27,3 +27,8 @@ This is a revised FreeCAD workbench that allows the Code Editor to execute and d
   
 - [Usage](docs/usage.md)
 - [Developers](docs/developers.md)
+
+### Testing result
+
+![image](https://github.com/user-attachments/assets/839e098a-d243-4ddd-9a7a-a5d2a2b0074f)
+
