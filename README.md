@@ -19,7 +19,8 @@ This is a revised FreeCAD workbench that allows the Code Editor to execute and d
   then copy revised WB to folder path
   C:\Users\AppData\Roaming\FreeCAD\Mod\
 
-  Restart Freecad to reload then run test
+  Restart Freecad to reload then run test:
+  
   +compose code in code editor
   +click excute to show model 
   
