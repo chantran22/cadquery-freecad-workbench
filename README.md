@@ -19,7 +19,7 @@ This is a revised  Cadquery workbench on FreeCAD that allows the Code Editor to 
   then copy revised WB to folder path
   C:\Users\AppData\Roaming\FreeCAD\Mod\ or
   following sequence instruction from Jeremy Wright in main hub (cadquery-freecad-workbench)
-  then replace cadquery WB content in folder path:  C:\Users\AppData\Roaming\FreeCAD\Mod\
+  then replace cadquery WB content by files of this branch to folder path:  C:\Users\AppData\Roaming\FreeCAD\Mod\
 
   Restart Freecad  then run test:
   
