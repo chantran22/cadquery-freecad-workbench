@@ -1,4 +1,4 @@
-# This is a CadQuery script template
+# This is a Build123d script template
 # Add your script code below
 from build123d import *
 
