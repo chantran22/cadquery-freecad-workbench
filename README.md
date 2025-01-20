@@ -9,10 +9,14 @@ This is a revised FreeCAD workbench that allows the Code Editor to execute and d
 ![image](https://github.com/user-attachments/assets/b0a90445-0fde-4a16-877d-aad6aee22931)
 
 
-The documentation for this workbench can be found [here](docs/index.md). Below are the main entry points into the documentation.
-
 ### Documentation
 - [Introduction](docs/index.md#introduction)
 - [Installation](docs/installation.md)
+  After install build123d/ Cadquery in path:
+  C:\Users\AppData\Roaming\Python\\Python311\site-packages\
+  then copy revised WB to folder path
+  C:\Users\AppData\Roaming\FreeCAD\Mod\
+
+  Restart Freecad to reload then run test
 - [Usage](docs/usage.md)
 - [Developers](docs/developers.md)
