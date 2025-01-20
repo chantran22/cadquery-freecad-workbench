@@ -17,7 +17,9 @@ This is a revised FreeCAD workbench that allows the Code Editor to execute and d
   After install build123d/ Cadquery in path:
   C:\Users\AppData\Roaming\Python\\Python311\site-packages\
   then copy revised WB to folder path
-  C:\Users\AppData\Roaming\FreeCAD\Mod\
+  C:\Users\AppData\Roaming\FreeCAD\Mod\ or
+  following sequence instruction from Jeremy Wright in main hub (cadquery-freecad-workbench)
+  then replace cadquery WB content in folder path:  C:\Users\AppData\Roaming\FreeCAD\Mod\
 
   Restart Freecad to reload then run test:
   
