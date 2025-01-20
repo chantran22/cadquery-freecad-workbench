@@ -5,42 +5,80 @@ CadQuery GUI init module for FreeCAD
 This adds a workbench with a scripting editor to FreeCAD's GUI.
 """
 
-import Part, FreeCAD, FreeCADGui
-from CQGui.Command import (CadQueryHelp,
-                          CadQueryClearOutput,
-                          CadQueryStableInstall,
-                          CadQueryUnstableInstall,
-                          Build123DInstall)
+import os
+import Part
+import FreeCAD
+import FreeCADGui
+from cadquery import cq
+
+from CQGui.Command import (
+    CadQueryHelp,
+    CadQueryNewScript,
+    CadQueryOpenScript,
+    CadQuerySaveScript,
+    CadQueryExecuteScript,
+)
 
 
-class CadQueryWorkbench (Workbench):
+class CadQueryWorkbench(Workbench):
     """CadQuery workbench for FreeCAD"""
-      
+
     MenuText = "CadQuery"
     ToolTip = "CadQuery workbench"
+    script_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
+    Icon = os.path.join(script_dir, "CQGui", "icons", "CQ_Logo.svg")
+    #Icon = os.path.join(os.path.dirname(__file__), "CQGui", "icons", "CQ_Logo.svg")
 
+    closedWidgets = []  # Keeps track of which workbenches we have hidden so we can reshow them
 
     def Initialize(self):
-        self.appendMenu('CadQuery', ['CadQueryClearOutput'])
-        self.appendMenu(['CadQuery', 'Install'], ["CadQueryStableInstall",
-                                                  "CadQueryUnstableInstall",
-                                                  "Build123DInstall"])
-        self.appendMenu('CadQuery', ['CadQueryHelp'])
-
+        """Initialize the CadQuery workbench"""
+        self.appendMenu("CadQuery", ["CadQueryNewScript", "CadQueryOpenScript" ,"CadQuerySaveScript", "CadQueryExecuteScript"])
+        self.appendMenu("CadQuery", ["CadQueryHelp"])
 
     def Activated(self):
-        pass
+        """Actions to perform when the CadQuery workbench is activated"""
+        import cadquery
+        from PySide import QtGui
 
+        msg = QtGui.QApplication.translate(
+            "cqCodeWidget",
+            f"CadQuery {cadquery.__version__}\r\n"
+            "CadQuery is a parametric scripting API for creating and traversing CAD models\r\n"
+            "Author: David Cowden\r\n"
+            "License: Apache-2.0\r\n"
+            "Website: https://github.com/dcowden/cadquery\r\n",
+            None,
+        )
+        FreeCAD.Console.PrintMessage(msg)
+
+        # Getting the main window to ensure the report view is visible
+        mw = FreeCADGui.getMainWindow()
+        dockWidgets = mw.findChildren(QtGui.QDockWidget)
+
+        for widget in dockWidgets:
+            if widget.objectName() == "Report view":
+                widget.setVisible(True)
+
+    def AutoExecute(self):
+        """Automatically execute a script when a file is reloaded"""
+        try:
+            from CQGui import Command
+            Command.CadQueryExecuteScript().Activated()
+        except Exception as e:
+            FreeCAD.Console.PrintError(f"Error in AutoExecute: {e}\r\n")
 
     def Deactivated(self):
+        """Actions to perform when the CadQuery workbench is deactivated"""
         pass
 
 
 
-FreeCADGui.addCommand('CadQueryStableInstall', CadQueryStableInstall())
-FreeCADGui.addCommand('CadQueryUnstableInstall', CadQueryUnstableInstall())
-FreeCADGui.addCommand('Build123DInstall', Build123DInstall())
-FreeCADGui.addCommand('CadQueryClearOutput', CadQueryClearOutput())
+
+FreeCADGui.addCommand('CadQueryOpenScript', CadQueryOpenScript())
+FreeCADGui.addCommand('CadQuerySaveScript', CadQuerySaveScript())
+FreeCADGui.addCommand('CadQueryExecuteScript', CadQueryExecuteScript())
+FreeCADGui.addCommand('CadQueryNewScript', CadQueryNewScript())
 FreeCADGui.addCommand('CadQueryHelp', CadQueryHelp())
 
 FreeCADGui.addWorkbench(CadQueryWorkbench())
