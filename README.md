@@ -4,9 +4,10 @@ The CadQuery Workbench for FreeCAD
 
 ## Introduction
 
-This is a FreeCAD workbench that allows the Macro Editor to execute and display CadQuery models.
+This is a revised FreeCAD workbench that allows the Code Editor to execute and display CadQuery models (*.py not macro). 
 
-![User Interface](docs/cqfm_user_interface.png)
+![image](https://github.com/user-attachments/assets/b0a90445-0fde-4a16-877d-aad6aee22931)
+
 
 The documentation for this workbench can be found [here](docs/index.md). Below are the main entry points into the documentation.
 
