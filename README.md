@@ -36,4 +36,7 @@ This is a revised  Cadquery workbench on FreeCAD that allows the Code Editor to 
 
 ![image](https://github.com/user-attachments/assets/256e63b6-958f-4b4c-8072-14f608b7fc91)
 
+![image](https://github.com/user-attachments/assets/39e69109-f6a1-4df3-bbd4-e84c53397ec4)
+
+
 
