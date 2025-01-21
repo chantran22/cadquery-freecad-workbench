@@ -1,17 +1,9 @@
 from build123d import *
 #from ocp_vscode import show_object, reset_show
-#from build123d.bd_utils import Uboot
 
-# L2=352
-# L1=420
-# h=130
+
 k=1000**(-3)
-#A, B, c= 520,452, 240
 
-
-#p1 = Uboot.U2_boot(A,B,c)
-#p2= fillet(p1.edges().group_by(Axis.Z)[-1], radius=20)
-#res= fillet(p2.edges().group_by(Axis.Z)[1], radius=15)
 
 length, width, thickness = 80.0, 60.0, 10.0
 
