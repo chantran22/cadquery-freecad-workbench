@@ -244,8 +244,7 @@ class CadQueryExecuteScript:
         tempFile.close()
 
         try:
-            # Execute the script
-            
+            # Execute the script  
             exec_globals = {
               "show_object": show_object,  
               "show": show_object  
