@@ -245,7 +245,11 @@ class CadQueryExecuteScript:
 
         try:
             # Execute the script
-            exec_globals = {"show_object": show_object}
+            
+            exec_globals = {
+              "show_object": show_object,  
+              "show": show_object  
+             }
             with open(tempFile.name, "r") as f:
                 exec(f.read(), exec_globals)
 
