@@ -25,7 +25,7 @@ This is a revised  Cadquery workbench on FreeCAD that allows the Code Editor to 
   
   +write code in code editor
   
-  +click Execute Script to show model (for Build123d click "Execute Script" button twice)
+  +click Execute Script to show model (for Build123d click "Execute Script" button in twice)
   
 - [Usage](docs/usage.md)
 - [Developers](docs/developers.md)
