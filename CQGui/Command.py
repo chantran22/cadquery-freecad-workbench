@@ -10,17 +10,19 @@ import inspect
 import cadquery as cq
 from CodeEditor import CodeEditor
 #from cadquery import Shared
-import Shared
-#from PySide import QtGui
+
+from PySide2 import QtGui
 #import FreeCAD
 #import FreeCADGui
 from contextlib import contextmanager
 import FreeCAD, FreeCADGui
 from PySide import QtGui
-from CQGui.display import show_object
+from CQGui.display import show_object, show
 #from CQGui.ImportCQ import open
 #from ExportCQ import save
 from CQGui.HelpDialog import HelpDialog
+from CQGui import Shared
+from cadquery import cqgi
 
 # class CadQueryStableInstall:
     # """
@@ -208,7 +210,56 @@ class CadQuerySaveScript:
         execute_on_save = FreeCAD.ParamGet("User parameter:BaseApp/Preferences/Mod/cadquery-freecad-module").GetBool("executeOnSave")
         if execute_on_save:
             CadQueryExecuteScript().Activated()
-            
+  
+ 
+ 
+class CadQuerySaveAsScript:
+    """CadQuery's command to save-as a script file"""
+    previousPath = None
+
+    def GetResources(self):
+        return {
+            "MenuText": "Save Script As",
+            "Accel": "",
+            "ToolTip": "Saves the CadQuery script to disk in a location other than the original",
+            "Pixmap": ":/icons/document-save-as.svg"
+        }
+
+    def IsActive(self):
+        return True
+
+    def Activated(self):
+        # Get the main window and the active code pane
+        mw = FreeCADGui.getMainWindow()
+        cqCodePane = Shared.getActiveCodePane()
+
+        if cqCodePane is None:
+            FreeCAD.Console.PrintError("Nothing to save.\r\n")
+            return
+
+        # Set the initial directory for the save dialog
+        if self.previousPath is None:
+            self.previousPath = os.path.expanduser("~")  # Default to user's home directory
+
+        # Open the save-as dialog
+        filename, _ = QtGui.QFileDialog.getSaveFileName(
+            mw, "Save CadQuery Script As", self.previousPath, "CadQuery Files (*.py)")
+
+        # Update the previous path
+        self.previousPath = filename
+
+        # Check if the user selected a file
+        if filename:
+            # Save the file using the existing save function
+            save(filename)
+
+            # Update the script window's tab title
+            Shared.setActiveWindowTitle(os.path.basename(filename))
+
+        else:
+            FreeCAD.Console.PrintError("Save operation canceled by the user.\r\n")
+
+   
 
 
 class CadQueryExecuteScript:
@@ -244,7 +295,8 @@ class CadQueryExecuteScript:
         tempFile.close()
 
         try:
-            # Execute the script  
+            # Execute the script
+            #exec_globals = {"show_object": show_object}
             exec_globals = {
               "show_object": show_object,  
               "show": show_object  
@@ -264,6 +316,164 @@ class CadQueryExecuteScript:
         finally:
             # Clean up the temporary file
             os.remove(tempFile.name)
+
+
+class CadQueryToggleCommentScript:
+    """Toggles '#' comments on selected lines in the CadQuery editor"""
+
+    def GetResources(self):
+        return {
+            "MenuText": "Toggle Comment Lines",
+            "Accel": "Ctrl+/",
+            "ToolTip": "Toggles '#' at the start of each selected line",
+            "Pixmap": ":/icons/edit_comment.svg"
+        }
+
+    def IsActive(self):
+        return True
+
+    def Activated(self):
+        cqCodePane = Shared.getActiveCodePane()
+        if cqCodePane is None:
+            FreeCAD.Console.PrintError("No script editor active.\n")
+            return
+
+        cursor = cqCodePane.textCursor()
+        if not cursor.hasSelection():
+            # Select the current line if no text is selected
+            cursor.select(cursor.LineUnderCursor)
+
+        # Save selection bounds
+        start = cursor.selectionStart()
+        end = cursor.selectionEnd()
+
+        # Get line numbers
+        cursor.setPosition(start)
+        cursor.movePosition(cursor.StartOfBlock)
+        start_block = cursor.blockNumber()
+
+        cursor.setPosition(end)
+        cursor.movePosition(cursor.StartOfBlock)
+        end_block = cursor.blockNumber()
+
+        doc = cqCodePane.document()
+        cursor.beginEditBlock()
+
+        for line_num in range(start_block, end_block + 1):
+            block = doc.findBlockByNumber(line_num)
+            text = block.text()
+
+            # Ignore empty lines
+            if not text.strip():
+                continue
+
+            cursor.setPosition(block.position())
+            cursor.movePosition(cursor.EndOfBlock, cursor.KeepAnchor)
+
+            # Toggle: comment if not commented, uncomment if already commented
+            if text.lstrip().startswith("#"):
+                leading_spaces = len(text) - len(text.lstrip())
+                uncommented = text[:leading_spaces] + text.lstrip()[1:]
+                cursor.insertText(uncommented)
+            else:
+                cursor.insertText("#" + text)
+
+        cursor.endEditBlock()
+        FreeCAD.Console.PrintMessage("Toggled comment lines.\n")
+
+
+
+class CadQueryValidateScript:
+    """Checks the script for the user without executing it and populates the variable editor, if needed"""
+
+    def GetResources(self):
+        return {"MenuText": "Validate Script",
+                "Accel": "F4",
+                "ToolTip": "Validates a CadQuery script",
+                "Pixmap": ":/icons/edit_OK.svg"}
+
+    def IsActive(self):
+        return True
+
+    def Activated(self):
+        # Grab our code editor so we can interact with it
+        cqCodePane = Shared.getActiveCodePane()
+
+        # If there is no script to check, ignore this command
+        if cqCodePane is None:
+            FreeCAD.Console.PrintMessage("There is no script to validate.")
+            return
+
+        # Clear the old render before re-rendering
+        Shared.clearActiveDocument()
+
+        scriptText = cqCodePane.toPlainText().encode('utf-8')
+
+        if (b"show_object(" not in scriptText) and  (b"debug(" not in scriptText):
+            FreeCAD.Console.PrintError("Script did not call show_object or debug, no output available. Script must be CQGI compliant to get build output, variable editing and validation.\r\n")
+            return
+
+        # A repreentation of the CQ script with all the metadata attached
+        cqModel = cqgi.parse(scriptText)
+
+        # Allows us to present parameters to users later that they can alter
+        parameters = cqModel.metadata.parameters
+
+        Shared.populateParameterEditor(parameters)
+        
+
+
+
+class CadQueryOpenExample:
+    exFile = None
+
+    def __init__(self, exFile):
+        self.exFile = str(exFile)
+
+    def GetResources(self):
+        return {"MenuText": str(self.exFile),
+                "Pixmap": ":/icons/accessories-text-editor.svg"}
+
+    def Activated(self):
+        FreeCAD.Console.PrintMessage(self.exFile + "\r\n")
+
+        # So we can open the "Open File" dialog
+        mw = FreeCADGui.getMainWindow()
+
+        # Start off defaulting to the Examples directory
+        module_base_path = module_locator.module_path()
+        exs_dir_path = os.path.join(module_base_path, 'Libs/cadquery/examples/FreeCAD')
+
+        # Append this script's directory to sys.path
+        sys.path.append(os.path.dirname(exs_dir_path))
+
+        # We've created a library that FreeCAD can use as well to open CQ files
+        ImportCQ.open(os.path.join(exs_dir_path, self.exFile))
+
+
+
+class CadQueryClearOutput:
+    """Allows the user to clear the reports view when it gets overwhelmed with output"""
+
+    def GetResources(self):
+        return {"MenuText": "Clear Output",
+                "Accel": "Shift+Alt+C",
+                "ToolTip": "Clears the script output from the Reports view",
+                "Pixmap": ":/icons/button_invalid.svg"}
+
+    def IsActive(self):
+        return True
+
+    def Activated(self):
+        # Grab our main window so we can interact with it
+        mw = FreeCADGui.getMainWindow()
+
+        reportView = mw.findChild(QtGui.QDockWidget, "Report view")
+
+        # Clear the view because it gets overwhelmed sometimes and won't scroll to the bottom
+        reportView.widget().clear()
+        
+        
 
 
 @contextmanager
