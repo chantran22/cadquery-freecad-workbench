@@ -10,13 +10,19 @@ import Part
 import FreeCAD
 import FreeCADGui
 from cadquery import cq
+#from CQGui import myfunc
 
 from CQGui.Command import (
     CadQueryHelp,
     CadQueryNewScript,
     CadQueryOpenScript,
     CadQuerySaveScript,
+    CadQuerySaveAsScript,
     CadQueryExecuteScript,
+    CadQueryToggleCommentScript,
+    CadQueryValidateScript,
+    CadQueryClearOutput,
+    
 )
 
 
@@ -33,8 +39,8 @@ class CadQueryWorkbench(Workbench):
 
     def Initialize(self):
         """Initialize the CadQuery workbench"""
-        self.appendMenu("CadQuery", ["CadQueryNewScript", "CadQueryOpenScript" ,"CadQuerySaveScript", "CadQueryExecuteScript"])
-        self.appendMenu("CadQuery", ["CadQueryHelp"])
+        self.appendMenu("CadQuery", ["CadQueryNewScript", "CadQueryOpenScript" ,"CadQuerySaveScript", "CadQuerySaveAsScript", "CadQueryExecuteScript"])
+        self.appendMenu("CadQuery", [ "CadQueryToggleCommentScript", "CadQueryValidateScript",  "CadQueryClearOutput", "CadQueryHelp"])
 
     def Activated(self):
         """Actions to perform when the CadQuery workbench is activated"""
@@ -77,8 +83,14 @@ class CadQueryWorkbench(Workbench):
 
 FreeCADGui.addCommand('CadQueryOpenScript', CadQueryOpenScript())
 FreeCADGui.addCommand('CadQuerySaveScript', CadQuerySaveScript())
+FreeCADGui.addCommand('CadQuerySaveAsScript', CadQuerySaveAsScript())
 FreeCADGui.addCommand('CadQueryExecuteScript', CadQueryExecuteScript())
 FreeCADGui.addCommand('CadQueryNewScript', CadQueryNewScript())
+
+FreeCADGui.addCommand('CadQueryValidateScript', CadQueryValidateScript())
+FreeCADGui.addCommand('CadQueryToggleCommentScript', CadQueryToggleCommentScript())
+
+FreeCADGui.addCommand('CadQueryClearOutput', CadQueryClearOutput())
 FreeCADGui.addCommand('CadQueryHelp', CadQueryHelp())
 
 FreeCADGui.addWorkbench(CadQueryWorkbench())
