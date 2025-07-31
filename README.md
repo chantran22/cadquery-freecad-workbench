@@ -40,6 +40,8 @@ option using "from cadquery.vis import show"
 
 ![image](https://github.com/user-attachments/assets/339ce7de-6faa-4ad8-9b1a-4e564bdb17bc)
 
+### Update some functions
+<img width="329" height="302" alt="image" src="https://github.com/user-attachments/assets/22d46b6a-c240-4c28-9cef-86860ff3cf07" />
 
 
 
