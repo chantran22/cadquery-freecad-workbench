@@ -30,7 +30,7 @@ This is a revised  Cadquery workbench on FreeCAD that allows the Code Editor to 
 - [Installation method 2](docs/installation.md)
 
 
-  If you already installed in python in another path folder eg: C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\
+  If you already installed build123d/ Cadquery in another python path folder eg: C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\
   and dont want to install cadquery/ build123d again then copy cadquery/ build123d package & dependancies from old path folder to
   C:\Users\Admin\AppData\Local\Programs\FreeCAD 1.0\bin\Lib\site-packages\ (* Note need checking requirement dependancies of cadquery/build123d, some packages may already got in Freecad)
   then copy revised WB to folder path
