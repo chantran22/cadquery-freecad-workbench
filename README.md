@@ -11,7 +11,7 @@ This is a revised  Cadquery workbench on FreeCAD that allows the Code Editor to 
 
 ### Documentation
 - [Introduction](docs/index.md#introduction)
-- [Installation methode 1](docs/installation.md)
+- [Installation method 1](docs/installation.md)
 
 
   After install build123d/ Cadquery in path:
@@ -27,7 +27,7 @@ This is a revised  Cadquery workbench on FreeCAD that allows the Code Editor to 
   
   +click Execute Script to show model (for Build123d click "Execute Script" button in twice)
 
-- [Installation methode 2](docs/installation.md)
+- [Installation method 2](docs/installation.md)
 
 
   If you already installed in python in another path folder eg: C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\
