@@ -40,6 +40,11 @@ option using "from cadquery.vis import show"
 
 ![image](https://github.com/user-attachments/assets/339ce7de-6faa-4ad8-9b1a-4e564bdb17bc)
 
+in Freecad environment, Cadquery - Build123d now are more convenient in usage with dialog  
+
+<img width="780" height="360" alt="image" src="https://github.com/user-attachments/assets/04b3cb07-c6b1-4fa0-9116-dccf331cdb20" />
+
+
 ### Update some functions
 <img width="329" height="302" alt="image" src="https://github.com/user-attachments/assets/22d46b6a-c240-4c28-9cef-86860ff3cf07" />
 
