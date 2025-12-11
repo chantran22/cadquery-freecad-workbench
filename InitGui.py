@@ -53,8 +53,8 @@ class CadQueryWorkbench(Workbench):
             "CadQuery is a parametric scripting API for creating and traversing CAD models\r\n"
             "Author: David Cowden\r\n"
             "License: Apache-2.0\r\n"
-            "Website: https://github.com/dcowden/cadquery
-            Website: https://github.com/gumyr/build123d\r\n",
+            "Website: https://github.com/dcowden/cadquery\r\n"
+            "Website: https://github.com/gumyr/build123d\r\n",
             None,
         )
         FreeCAD.Console.PrintMessage(msg)
@@ -95,4 +95,5 @@ FreeCADGui.addCommand('CadQueryClearOutput', CadQueryClearOutput())
 FreeCADGui.addCommand('CadQueryHelp', CadQueryHelp())
 
 FreeCADGui.addWorkbench(CadQueryWorkbench())
+
 
