@@ -65,5 +65,5 @@ in Freecad environment, Cadquery - Build123d now are more convenient in usage wi
 
 https://github.com/jopdorp/build123d-freecad/
 
-It' s quite interesting. Above pic, it is how look like.
+It' s quite interesting. Above pic, how it looks like.
 
