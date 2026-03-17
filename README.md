@@ -60,4 +60,6 @@ in Freecad environment, Cadquery - Build123d now are more convenient in usage wi
 <img width="329" height="302" alt="image" src="https://github.com/user-attachments/assets/22d46b6a-c240-4c28-9cef-86860ff3cf07" />
 
 
+### Another workbench for CQ/ Build123d:
+<img width="679" height="278" alt="image" src="https://github.com/user-attachments/assets/6c3de07a-5db4-4866-9bdd-035bd664f6d8" />
 
